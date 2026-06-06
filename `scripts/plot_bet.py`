@@ -1,0 +1,37 @@
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def plot_isotherm(file_path, mof_name="MonoZIF-8"):
+    """
+    绘制 MOF 材料的氮气吸脱附等温线
+    要求输入 CSV 包含两列: Relative Pressure (P/P0), Quantity Adsorbed (cm3/g STP)
+    """
+    try:
+        # 读取数据 (假设数据有表头)
+        data = pd.read_csv(file_path)
+        
+        plt.figure(figsize=(8, 6))
+        # 绘制吸附和脱附曲线
+        plt.plot(data['P/P0'], data['Adsorption'], 'o-', color='blue', label=f'{mof_name} Adsorption')
+        plt.plot(data['P/P0'], data['Desorption'], 's-', color='red', label=f'{mof_name} Desorption')
+        
+        # 图表美化
+        plt.xlabel('Relative Pressure (P/P0)', fontsize=14)
+        plt.ylabel('Quantity Adsorbed (cm3/g STP)', fontsize=14)
+        plt.title(f'N2 Adsorption-Desorption Isotherm of {mof_name}', fontsize=16)
+        plt.legend(frameon=False)
+        plt.tick_params(direction='in', right=True, top=True)
+        
+        # 保存高清图片
+        plt.savefig(f'{mof_name}_BET_Isotherm.png', dpi=300, bbox_inches='tight')
+        plt.show()
+        print("绘图完成，已保存为高清 PNG！")
+        
+    except Exception as e:
+        print(f"数据处理出错，请检查 CSV 格式: {e}")
+
+if __name__ == "__main__":
+    # 测试路径，实际使用时可替换为你自己的数据文件
+    # plot_isotherm("your_zif8_data.csv")
+    print("BET 分析脚本已就绪。")
